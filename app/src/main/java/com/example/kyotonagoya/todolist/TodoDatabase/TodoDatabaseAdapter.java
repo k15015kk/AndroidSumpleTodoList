@@ -17,24 +17,16 @@ public class TodoDatabaseAdapter {
         db = todoDatabase.getWritableDatabase();
     }
 
-    public ArrayList<TodoProperty> selectTaskAll(){
+    public ArrayList<String> selectTaskAll(){
         Cursor cursor = db.rawQuery("select * from " + TodoDatabaseOpenHelper.tableName,null);
 
-        ArrayList<TodoProperty> result = new ArrayList<TodoProperty>();
+        ArrayList<String> result = new ArrayList<String>();
 
         try {
-            cursor.moveToFirst();
-
-            while (true) {
-                if(cursor.moveToNext()){
-                    TodoProperty propertyData = new TodoProperty();
-
-                    propertyData.id = cursor.getInt(cursor.getColumnIndex("id"));
-                    propertyData.task = cursor.getString(cursor.getColumnIndex("task"));
-                    result.add(propertyData);
-                } else {
-                    break;
-                }
+            if(cursor.moveToFirst()) {
+                do {
+                    result.add(cursor.getString(cursor.getColumnIndex("task")));
+                } while (cursor.moveToNext());
             }
         } finally {
             cursor.close();
@@ -50,9 +42,9 @@ public class TodoDatabaseAdapter {
         db.insertOrThrow(TodoDatabaseOpenHelper.tableName,null,values);
     }
 
-    public void deleteRecord(int id) {
-        String[] deleteWhere = {String.valueOf(id)};
+    public void deleteRecord(String data) {
+        String[] deleteWhere = {data};
 
-        db.delete(TodoDatabaseOpenHelper.tableName,"id=?",deleteWhere);
+        db.delete(TodoDatabaseOpenHelper.tableName,"task=?",deleteWhere);
     }
 }
