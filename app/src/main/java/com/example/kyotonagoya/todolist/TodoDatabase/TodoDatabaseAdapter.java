@@ -17,17 +17,21 @@ public class TodoDatabaseAdapter {
         db = todoDatabase.getWritableDatabase();
     }
 
-    public ArrayList<String> selectTaskAll(){
+    public ArrayList<TodoProperty> selectTaskAll(){
         Cursor cursor = db.rawQuery("select * from " + TodoDatabaseOpenHelper.tableName,null);
 
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<TodoProperty> result = new ArrayList<TodoProperty>();
 
         try {
             cursor.moveToFirst();
 
             while (true) {
                 if(cursor.moveToNext()){
-                    result.add(cursor.getString(cursor.getColumnIndex("task")));
+                    TodoProperty propertyData = new TodoProperty();
+
+                    propertyData.id = cursor.getInt(cursor.getColumnIndex("id"));
+                    propertyData.task = cursor.getString(cursor.getColumnIndex("task"));
+                    result.add(propertyData);
                 } else {
                     break;
                 }

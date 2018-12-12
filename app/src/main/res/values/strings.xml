@@ -2,5 +2,4 @@
     <string name="app_name">TodoList</string>
     <string name="plain_text_assist">タスクを入力</string>
     <string name="add_button">追加</string>
-    <string name="delete_button">削除</string>
 </resources>
