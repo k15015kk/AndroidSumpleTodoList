@@ -32,10 +32,9 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                String deleteData = taskList.get(position);
+                String deleteData = adapter.getItem(position).toString();
 
                 dbAdapter.deleteRecord(deleteData);
-                taskList.remove(deleteData);
                 adapter.remove(deleteData);
                 return false;
             }
@@ -46,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.editText);
         String task = editText.getText().toString();
         dbAdapter.addRecord(task);
-        taskList.add(task);
         adapter.add(task);
     }
 }
